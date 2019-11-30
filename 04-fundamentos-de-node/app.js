@@ -1,12 +1,20 @@
 
-const argv = require('yargs').argv;
-const { createFile } = require('./multiply/multiplybase');
+const argv = require('./config/yargs').argv;
 
-let argv2 = process.argv;
-console.log(argv, argv2);
-//let param = argv[2];
-//let base = param.split('=')[1];
+const { createFile, listTable } = require('./multiply/multiplybase');
 
-//createFile(base)
-//    .then(file => console.log(`Archivo creado: ${file}`))
-//    .catch(e => console.log(e));
+let command = argv._[0];
+
+switch (command) {
+    case 'create':
+        createFile(argv.base, argv.limit)
+            .then(file => console.log(`Archivo creado: ${file}`))
+            .catch(e => console.log(e));
+    break;
+    case 'list':
+        listTable(argv.base, argv.limit);
+        break;
+    default:
+        console.log('comando no conocido');
+    break;
+}
